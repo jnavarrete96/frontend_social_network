@@ -17,11 +17,9 @@ import {
 import { useRef, useState } from 'react'
 
 import { UpdateUserForm } from './components/UpdateUserForm'
-import { useAppStore } from 'store/useAppStore'
 
 
 export function ProfileEditPage() {
-  const userAuthenticated = useAppStore((store) => store.userAuthenticated)
 
   const [profileImage, setProfileImage] = useState<File | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)

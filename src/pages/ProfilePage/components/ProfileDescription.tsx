@@ -1,11 +1,7 @@
-import { Box, Button, Heading, Text, calc, VStack, HStack } from '@chakra-ui/react'
-import { MdPersonAdd, MdPersonRemove } from 'react-icons/md'
+import { Box,Heading, Text, calc, VStack, HStack } from '@chakra-ui/react'
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
 
 import { useFindUserByUsernameQuery } from 'hooks/queries/useFindUserByUsernameQuery'
-import { useToggleFollowerMutation } from 'hooks/mutations/useToggleFollowerMutation'
-import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
