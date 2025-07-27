@@ -96,12 +96,9 @@ export function Navbar(props: Props) {
               <MenuList>
                 <MenuItem
                   as={NavLink}
-                  to={`/profile/${userAuthenticated.user_name}/postsCreated`}
+                  to={`/profile/${userAuthenticated?.id}`}
                 >
                   My profile
-                </MenuItem>
-                <MenuItem as={NavLink} to={'/profile/edit'}>
-                  Settings
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem

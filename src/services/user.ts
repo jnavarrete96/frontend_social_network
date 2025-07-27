@@ -35,9 +35,9 @@ const fetchSearchUsersByUsernameOrName = async (peopleToSearch: string) => {
   return users
 }
 
-const fetchFindUserByUsername = async (username: string) => {
-  const response = await protectedInstance.get<User>(
-    `/users/username/${username}`
+const fetchFindUserByUsername = async (userId: string) => {
+  const response = await protectedInstance.get<UserProfile>(
+    `/users/${userId}`
   )
   const user = response.data
 

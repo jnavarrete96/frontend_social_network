@@ -70,7 +70,6 @@ export function SimplePostCard({
   const { likesCount, isLoadingLikes } = useLikesCountQuery(post.id)
   const { toggleLike, isPending: isPendingLike } = useToggleLikeMutation(post.id)
 
-
   const {
     register,
     handleSubmit,
@@ -120,7 +119,7 @@ export function SimplePostCard({
 
   // Crear un objeto User temporal para mostrar la información del autor
   const authorAsUser: UserProfile = {
-    id: post?.id, // Usando el id del post como temporal
+    id: post?.author?.id, // Usando el id del post como temporal
     full_name: post?.author?.full_name,
     user_name: post?.author?.user_name,
     birth_date: '', 
@@ -139,7 +138,7 @@ export function SimplePostCard({
               <Text
                 _hover={{ textDecoration: 'underline' }}
                 as={NavLink}
-                to={`/profile/${post?.author?.user_name}/postsCreated`}
+                to={`/profile/${post?.author?.id}`}
               >
                 {post?.author?.full_name}
               </Text>

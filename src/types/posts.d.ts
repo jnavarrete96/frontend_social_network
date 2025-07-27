@@ -13,6 +13,7 @@ interface SimplePost {
   content: string
   created_at: string
   author: {
+    id: string
     full_name: string
     user_name: string
   }

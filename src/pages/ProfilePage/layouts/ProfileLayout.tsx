@@ -13,20 +13,16 @@ import {
   ModalOverlay,
   useDisclosure
 } from '@chakra-ui/react'
-import { useParams } from 'react-router-dom'
 import { MdEdit } from 'react-icons/md'
 import { useRef, useState, useCallback } from 'react'
 
 import { profileBackground } from 'assets'
-import { useUserImages } from 'hooks/useUserImages'
 
 interface Props {
   children: JSX.Element | JSX.Element[]
 }
 
 export function ProfileLayout({ children }: Readonly<Props>) {
-  const params = useParams()
-  const { userBackgroundUrl } = useUserImages(params?.username as string)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const fileInputRef = useRef<HTMLInputElement>(null)
   const [profileBackgroundImage, setProfileBackgroundImage] =
@@ -96,7 +92,7 @@ export function ProfileLayout({ children }: Readonly<Props>) {
           }}
           objectFit='cover'
           opacity={'0.3'}
-          src={userBackgroundUrl ?? profileBackground}
+          src={profileBackground}
           width='100%'
         />
         {children}
@@ -114,7 +110,7 @@ export function ProfileLayout({ children }: Readonly<Props>) {
               src={
                 showPreviewImage() !== undefined
                   ? showPreviewImage()
-                  : userBackgroundUrl ?? profileBackground
+                  : profileBackground
               }
               width={'100%'}
             />
@@ -153,7 +149,7 @@ export function ProfileLayout({ children }: Readonly<Props>) {
             </Button>
             <Button
               colorScheme='red'
-              isDisabled={userBackgroundUrl === undefined}
+              isDisabled={undefined}
               size={'sm'}
               w='full'
               onClick={handleDeleteBackgroundImageUploaded}

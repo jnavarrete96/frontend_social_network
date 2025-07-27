@@ -23,11 +23,10 @@ export function MainRouter(props: Props) {
       <MainLayout>
         <Routes>
           <Route element={<PrivateRoutes />}>
-            <Route element={<ProfilePage />} path='/profile/:username'>
+            <Route element={<ProfilePage />} path='/profile/:userId'>
               <Route element={<PostsCreatedList />} path='postsCreated' />
               <Route element={<PostsLikedList />} path='postsLiked' />
             </Route>
-            <Route element={<ProfileEditPage />} path='/profile/edit' />
             <Route element={<HomePage />} path='/' />
           </Route>
           <Route element={<RedirectToHomeWhenUserLogin />}>

@@ -2,13 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 
 import { fetchFindUserByUsername } from 'services/user'
 
-const useFindUserByUsernameQuery = (username: string) => {
-  const queryKey = [`profile/${username}`]
+const useFindUserByUsernameQuery = (userId: string) => {
+  const queryKey = [`profile/${userId}`]
 
   const { data, ...rest } = useQuery({
     queryKey,
     queryFn: async () => {
-      return await fetchFindUserByUsername(username)
+      return await fetchFindUserByUsername(userId)
     },
     retry: false,
     refetchOnWindowFocus: false,

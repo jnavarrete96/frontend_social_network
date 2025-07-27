@@ -35,34 +35,6 @@ export function ProfilePage(props: Props) {
           <ProfileImage />
           <ProfileDescription />
         </Box>
-
-        <Box display={'flex'} gap={'4'} marginBottom={'24px'}>
-          <Button
-            colorScheme='messenger'
-            flexGrow={'1'}
-            isActive={pathContainsPostsCreated}
-            rounded={'full'}
-            variant={'ghost'}
-            onClick={() => {
-              navigate(`/profile/${params?.username as string}/postsCreated`)
-            }}
-          >
-            Tweets
-          </Button>
-          <Button
-            colorScheme='messenger'
-            flexGrow={'1'}
-            isActive={pathContainsPostsLiked}
-            rounded={'full'}
-            variant={'ghost'}
-            onClick={() => {
-              navigate(`/profile/${params?.username as string}/postsLiked`)
-            }}
-          >
-            Likes
-          </Button>
-        </Box>
-
         <Outlet />
       </ProfileContainer>
     </ProfileLayout>

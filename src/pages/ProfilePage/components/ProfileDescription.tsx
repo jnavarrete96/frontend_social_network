@@ -1,67 +1,79 @@
-import { Box, Button, Heading, Text, calc } from '@chakra-ui/react'
+import { Box, Button, Heading, Text, calc, VStack, HStack } from '@chakra-ui/react'
 import { MdPersonAdd, MdPersonRemove } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import { useFindUserByUsernameQuery } from 'hooks/queries/useFindUserByUsernameQuery'
 import { useToggleFollowerMutation } from 'hooks/mutations/useToggleFollowerMutation'
-import { useFindAllFollowersQuery } from 'hooks/queries/useFindAllFollowersQuery'
-import { useFindAllUsersFollowingQuery } from 'hooks/queries/useFindAllUsersFollowingQuery'
 import { useAppStore } from 'store/useAppStore'
 
 interface Props {}
 
+const formatBirthday = (birthday: string | Date | null | undefined) => {
+  if (birthday === null || birthday === undefined || birthday === '') {
+    return 'No disponible'
+  }
+  
+  const date = new Date(birthday)
+
+  if (isNaN(date.getTime())) {
+    return 'Fecha inválida'
+  }
+  
+  const months = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ]
+  
+  const day = date.getDate()
+  const month = months[date.getMonth()]
+  
+  return `${day} de ${month}`
+}
+
+const calculateAge = (birthday: string | Date | null | undefined) => {
+  if (birthday === null || birthday === undefined || birthday === '') {
+    return 'No disponible'
+  }
+  
+  const birthDate = new Date(birthday)
+
+  if (isNaN(birthDate.getTime())) {
+    return 'Fecha inválida'
+  }
+  
+  const today = new Date()
+  let age = today.getFullYear() - birthDate.getFullYear()
+  const monthDiff = today.getMonth() - birthDate.getMonth()
+  
+  if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+    age--
+  }
+  
+  return `${age} años`
+}
+
 export function ProfileDescription(props: Props) {
   const params = useParams()
-  const userAuthenticated = useAppStore((store) => store.userAuthenticated)
-
-  const { userProfile } = useFindUserByUsernameQuery(params.username as string)
-  const { toggleFollow } = useToggleFollowerMutation(params?.username as string)
-  const { followers, isPending } = useFindAllFollowersQuery(
-    params?.username as string
-  )
-  const [isFollowing, setIsFollowing] = useState(false)
-  const { usersFollowing } = useFindAllUsersFollowingQuery(
-    params?.username as string
-  )
-
-  useEffect(() => {
-    if (userAuthenticated === null || followers === undefined) {
-      return
-    }
-
-    const isFollowing = followers.some(
-      (follower) => follower.id === userAuthenticated.id
-    )
-
-    setIsFollowing(isFollowing)
-  }, [userAuthenticated, followers])
-
-  const handleFollow = () => {
-    toggleFollow(isFollowing)
-    setIsFollowing((prev) => !prev)
-  }
+  const { userProfile } = useFindUserByUsernameQuery(params.userId as string)
 
   return (
     <Box
       backgroundColor='gray.700'
       borderRadius='12px'
       maxWidth='100%'
-      minHeight={{ base: '246px', md: '163px' }}
+      minHeight={{ base: '280px', md: '200px' }}
       padding={{ base: '16px', md: '12px 24px' }}
       width='100%'
     >
       <Box
-        alignItems={{ base: 'center', md: 'end' }}
+        alignItems={{ base: 'center', md: 'start' }}
         display='flex'
         flexDirection={{
           base: 'column',
           md: 'row'
         }}
-        flexWrap={{
-          md: 'wrap'
-        }}
-        gap={{ md: 5 }}
+        gap={{ base: 4, md: 6 }}
         marginLeft={{ base: '0', md: 'auto' }}
         marginTop={{ base: '36px', md: 0 }}
         position='relative'
@@ -69,62 +81,52 @@ export function ProfileDescription(props: Props) {
           md: calc('100%').subtract('172px').toString()
         }}
       >
-        <Box>
-          <Heading display={'inline-block'} size='lg' textAlign='center'>
-            {userProfile?.name}
-          </Heading>{' '}
-          <Text color={'gray.500'} display={'inline-block'} fontWeight={600}>
-            @{userProfile?.username}
+        {/* Nombre y username */}
+        <Box textAlign={{ base: 'center', md: 'left' }}>
+          <Heading marginBottom={1} size='lg' >
+            {userProfile?.full_name}
+          </Heading>
+          <Text color='gray.500' fontSize='md' fontWeight={600} >
+            @{userProfile?.user_name}
           </Text>
         </Box>
 
-        <Box
-          columnGap={5}
-          display='flex'
-          flexWrap='wrap'
-          justifyContent='center'
-          marginBottom={{ base: 5, md: 0 }}
-          rowGap={1}
+        {/* Información personal */}
+        <VStack 
+          align={{ base: 'center', md: 'start' }} 
+          flex={1}
+          spacing={2}
         >
-          <Box display='flex' gap={1}>
-            <Text as='span' fontWeight='bold'>
-              {usersFollowing?.length ?? 0}
+          {/* Edad */}
+          <HStack spacing={2}>
+            <Text color='blue.300' fontWeight='bold'>
+              Edad:
             </Text>
-            <Text>Following</Text>
-          </Box>
-          <Box display='flex' gap={1}>
-            <Text as='span' fontWeight='bold'>
-              {followers?.length ?? 0}
+            <Text>
+              {calculateAge(userProfile?.birth_date)}
             </Text>
-            <Text> Followers</Text>
-          </Box>
-        </Box>
-        <Text
-          flexBasis={{
-            md: '100%'
-          }}
-          marginBottom={{ base: 5, md: 0 }}
-          textAlign={{ base: 'center', md: 'left' }}
-        >
-          {userProfile?.description}
-        </Text>
-        {/* Agregar funcionalidad seguir usuarios */}
-        {userAuthenticated?.username !== userProfile?.username && (
-          <Button
-            colorScheme='blue'
-            isDisabled={isPending}
-            isLoading={isPending}
-            leftIcon={isFollowing ? <MdPersonRemove /> : <MdPersonAdd />}
-            loadingText='Loading'
-            position={{ lg: 'absolute' }}
-            right={{ lg: 0 }}
-            top={{ lg: '4px' }}
-            variant={isFollowing ? 'outline' : 'solid'}
-            onClick={handleFollow}
-          >
-            {isFollowing ? 'Unfollow' : 'Follow'}
-          </Button>
-        )}
+          </HStack>
+
+          {/* Cumpleaños */}
+          <HStack spacing={2}>
+            <Text color='blue.300' fontWeight='bold'>
+              Cumpleaños:
+            </Text>
+            <Text>
+              {formatBirthday(userProfile?.birth_date)}
+            </Text>
+          </HStack>
+
+          {/* Correo */}
+          <HStack spacing={2}>
+            <Text color='blue.300' fontWeight='bold'>
+              Correo:
+            </Text>
+            <Text>
+              {userProfile?.email}
+            </Text>
+          </HStack>
+        </VStack>
       </Box>
     </Box>
   )
