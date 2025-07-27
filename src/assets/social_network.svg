@@ -1,0 +1,33 @@
+<svg width="64" height="64" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e40af;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f172a;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f8fafc;stop-opacity:0.9" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Fondo con bordes redondeados -->
+  <rect width="64" height="64" rx="16" ry="16" fill="url(#bgGradient)"/>
+  
+  <!-- Nodos de conexión -->
+  <circle cx="20" cy="20" r="4" fill="url(#iconGradient)" opacity="0.9"/>
+  <circle cx="44" cy="20" r="4" fill="url(#iconGradient)" opacity="0.9"/>
+  <circle cx="32" cy="32" r="5" fill="url(#iconGradient)"/>
+  <circle cx="20" cy="44" r="4" fill="url(#iconGradient)" opacity="0.9"/>
+  <circle cx="44" cy="44" r="4" fill="url(#iconGradient)" opacity="0.9"/>
+  
+  <!-- Líneas de conexión -->
+  <line x1="20" y1="20" x2="32" y2="32" stroke="url(#iconGradient)" stroke-width="2.5" opacity="0.8"/>
+  <line x1="44" y1="20" x2="32" y2="32" stroke="url(#iconGradient)" stroke-width="2.5" opacity="0.8"/>
+  <line x1="32" y1="32" x2="20" y2="44" stroke="url(#iconGradient)" stroke-width="2.5" opacity="0.8"/>
+  <line x1="32" y1="32" x2="44" y2="44" stroke="url(#iconGradient)" stroke-width="2.5" opacity="0.8"/>
+  <line x1="20" y1="20" x2="44" y2="20" stroke="url(#iconGradient)" stroke-width="2" opacity="0.6"/>
+  <line x1="20" y1="44" x2="44" y2="44" stroke="url(#iconGradient)" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Efecto de brillo sutil -->
+  <ellipse cx="32" cy="16" rx="20" ry="8" fill="rgba(255,255,255,0.1)"/>
+</svg>
